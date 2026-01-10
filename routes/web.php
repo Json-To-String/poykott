@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\PlatformController;
+
+// Platforms comparison listing
+Route::get('platforms', [PlatformController::class, 'index'])->name('platforms.index');
 use App\Http\Controllers\AiAlternativeController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\FaqController;
