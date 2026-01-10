@@ -7,6 +7,7 @@ use App\Enums\ResourceType;
 use App\Models\Company;
 use App\Models\Person;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 class ImportMembersTechAvivCommand extends Command
@@ -24,16 +25,33 @@ class ImportMembersTechAvivCommand extends Command
         $progressBar = $this->output->createProgressBar(count($allData));
 
         foreach ($allData as $data) {
-            $person = Person::query()->updateOrCreate([
-                'name' => data_get($data, 'name'),
-            ], [
+            $personAttrs = [
                 'url' => data_get($data, 'url'),
                 'job_title' => data_get($data, 'title'),
                 'location' => data_get($data, 'location'),
                 'description' => data_get($data, 'description'),
-                'social_links' => data_get($data, 'socials'),
                 'approved_at' => now(),
-            ]);
+            ];
+
+            if (Schema::hasColumn('people', 'social_links')) {
+                $personAttrs['social_links'] = data_get($data, 'socials');
+            }
+
+            $person = Person::query()->updateOrCreate([
+                'name' => data_get($data, 'name'),
+            ], $personAttrs);
+
+            if (! Schema::hasColumn('people', 'social_links')) {
+                foreach (data_get($data, 'socials', []) as $socialUrl) {
+                    if (empty($socialUrl)) {
+                        continue;
+                    }
+
+                    $person->socialLinks()->firstOrCreate([
+                        'url' => trim((string) $socialUrl),
+                    ]);
+                }
+            }
 
             add_image_urls_to_notes(data_get($data, 'avatar'), $person, $this);
 
