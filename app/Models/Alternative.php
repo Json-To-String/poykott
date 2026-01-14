@@ -33,13 +33,15 @@ class Alternative extends Model implements Auditable, HasMedia
      *
      * @var array
      */
-    protected $fillable = ['name', 'description', 'approved_at', 'notes', 'url'];
+    protected $fillable = ['name', 'description', 'approved_at', 'notes', 'url', 'details', 'total_score'];
 
     protected function casts(): array
     {
         return [
             'id' => 'integer',
             'approved_at' => 'timestamp',
+            'details' => 'array',
+            'total_score' => 'integer',
         ];
     }
 

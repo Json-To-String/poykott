@@ -68,10 +68,94 @@
                     </div>
                 </div>
 
-                <!-- Main Content Sections -->
-                <div class="space-y-8 divide-y divide-gray-200 px-8 py-6">
-                    <!-- Alternatives Section -->
-                    <div class="pt-6">
+                <!-- Main Content Sections (two-column layout) -->
+                <div class="grid grid-cols-1 gap-8 px-8 py-6 md:grid-cols-3">
+                    <!-- Left: main details -->
+                    <div class="md:col-span-2">
+                        @php $d = $alternative->details ?? []; @endphp
+
+                        <div class="space-y-6">
+                            @if (! empty(data_get($d, 'presence')))
+                                <section>
+                                    <h3 class="mb-2 text-lg font-semibold">Evidence / Presence</h3>
+                                    <ul class="list-disc pl-5 text-gray-700">
+                                        @foreach (data_get($d, 'presence') as $k => $v)
+                                            <li>{{ ucfirst(str_replace('_', ' ', $k)) }}: {{ is_bool($v) ? ($v ? 'Yes' : 'No') : $v }}</li>
+                                        @endforeach
+                                    </ul>
+                                </section>
+                            @endif
+
+                            @if (! empty(data_get($d, 'functionalities')))
+                                <section>
+                                    <h3 class="mb-2 text-lg font-semibold">Functionalities</h3>
+                                    <ul class="grid grid-cols-1 gap-2 md:grid-cols-2 text-gray-700">
+                                        @foreach (data_get($d, 'functionalities') as $k => $v)
+                                            <li class="flex items-center gap-2">@if ($v) <span class="text-green-600">●</span> @else <span class="text-gray-400">○</span> @endif {{ ucfirst(str_replace('_', ' ', $k)) }}</li>
+                                        @endforeach
+                                    </ul>
+                                </section>
+                            @endif
+
+                            @if (! empty(data_get($d, 'implementation')))
+                                <section>
+                                    <h3 class="mb-2 text-lg font-semibold">Implementation</h3>
+                                    <div class="text-gray-700">
+                                        @foreach (data_get($d, 'implementation') as $k => $v)
+                                            <div class="mb-1">{{ ucfirst(str_replace('_', ' ', $k)) }}: {{ $v }}</div>
+                                        @endforeach
+                                    </div>
+                                </section>
+                            @endif
+
+                            @if (! empty(data_get($d, 'security')))
+                                <section>
+                                    <h3 class="mb-2 text-lg font-semibold">Security & Compliance</h3>
+                                    <div class="text-gray-700">
+                                        @foreach (data_get($d, 'security') as $k => $v)
+                                            <div class="mb-1">{{ ucfirst(str_replace('_', ' ', $k)) }}: {{ is_array($v) ? implode(', ', $v) : $v }}</div>
+                                        @endforeach
+                                    </div>
+                                </section>
+                            @endif
+                        </div>
+                    </div>
+
+                    <!-- Right: score and financials sidebar -->
+                    <aside class="md:col-span-1">
+                        <div class="sticky top-8 space-y-6">
+                            @if ($alternative->total_score)
+                                <div class="flex items-center gap-4 rounded-lg border border-gray-100 bg-gradient-to-br from-green-50 to-white p-5 shadow-sm">
+                                    <div class="flex h-20 w-20 items-center justify-center rounded-full bg-white text-2xl font-bold text-green-700 shadow">{{ $alternative->total_score }}</div>
+                                    <div>
+                                        <div class="text-sm font-semibold text-gray-500">Total score</div>
+                                        <div class="text-lg font-bold text-gray-900">{{ $alternative->total_score }}/100</div>
+                                    </div>
+                                </div>
+                            @endif
+
+                            @if (! empty(data_get($d, 'financials')))
+                                <div class="rounded-lg border border-gray-100 bg-white p-4 shadow-sm">
+                                    <h4 class="mb-2 text-sm font-semibold text-gray-700">Financials</h4>
+                                    <div class="text-sm text-gray-700">
+                                        @foreach (data_get($d, 'financials') as $k => $v)
+                                            <div class="mb-1"><strong>{{ ucfirst(str_replace('_', ' ', $k)) }}:</strong> {{ $v }}</div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endif
+
+                            <div class="rounded-lg border border-gray-100 bg-white p-4 text-sm text-gray-700 shadow-sm">
+                                <div class="mb-2 font-semibold">Quick links</div>
+                                <div class="flex flex-col gap-2">
+                                    @if ($alternative->url)
+                                        <a href="{{ Str::start($alternative->url, 'https://') }}" target="_blank" class="text-blue-600 hover:underline">Official website</a>
+                                    @endif
+                                    <a href="#resources" class="text-blue-600 hover:underline">Resources</a>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
                         <h2 class="mb-6 text-2xl font-bold text-gray-900">Alternatives to</h2>
 
                         @if ($alternative->companies->isNotEmpty())

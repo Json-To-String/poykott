@@ -224,9 +224,14 @@
                                     @endforeach
                                 </div>
 
-                                <h3 class="mb-2 line-clamp-1 text-lg font-bold">
-                                    {{ $alternative->name }}
-                                </h3>
+                                <div class="mb-2 flex items-center justify-between">
+                                    <h3 class="line-clamp-1 text-lg font-bold">{{ $alternative->name }}</h3>
+                                    @if ($alternative->total_score)
+                                        <div class="ml-2 inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-sm font-semibold text-green-800">
+                                            {{ $alternative->total_score }}
+                                        </div>
+                                    @endif
+                                </div>
                                 <p class="mb-2 line-clamp-2 text-sm text-slate-700">
                                     {{ Str::limit($alternative->description, 100) }}
                                 </p>

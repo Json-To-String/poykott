@@ -1,0 +1,161 @@
+{
+  "companies": [
+    {
+      "slug": "vercel",
+      "name": "Vercel",
+      "description": "Frontend cloud platform for deploying web applications"
+    }
+  ],
+  "comparisonData": {
+    "vercel": {
+      "company": {
+        "slug": "vercel",
+        "name": "Vercel",
+        "description": "Frontend cloud platform for deploying web applications"
+      },
+      "alternatives": [
+        {
+          "name": "Vercel",
+          "logo": "/vercel-logo.png",
+          "website": "",
+          "totalScore": 22,
+          "financials": {
+            "founded": "2015",
+            "employees": "~500",
+            "primaryUseCase": "Jamstack & static site deployments",
+            "targetUsers": "Developers, startups, enterprises",
+            "fundingToDate": "$313M",
+            "revenue2024": "~$200M",
+            "growthRate": "60% YoY"
+          },
+          "implementation": {
+            "setupComplexity": "Very Easy",
+            "cicdIntegration": "Native",
+            "edgeDeployment": "Yes (Edge Functions)",
+            "customDomains": "Included",
+            "pocAvailability": "Free tier"
+          },
+          "pricing": {
+            "freeTier": "Up to 100GB bandwidth",
+            "teamPlan": "$20/user/month",
+            "enterprisePlan": "Custom"
+          },
+          "security": {
+            "certifications": "SOC 2, ISO 27001",
+            "ssoRbac": "Yes",
+            "dataResidency": "EU/US regions"
+          },
+          "functionalities": {
+            "serverlessFunctions": "Yes",
+            "previewEnvironments": "Yes",
+            "edgeCaching": "Yes",
+            "backendIntegration": "Moderate",
+            "performanceMonitoring": "Built-in"
+          },
+          "scores": {
+            "easeOfSetup": 5,
+            "performance": 5,
+            "pricing": 3,
+            "enterpriseReadiness": 4,
+            "developerExperience": 5
+          },
+          "presence": "Vercel's global region list does not list an Israeli region. However, Vercel lists 'Israel' among its partner countries in a partner directory."
+        },
+        {
+          "name": "Netlify",
+          "logo": "/netlify-logo.png",
+          "website": "https://www.netlify.com",
+          "totalScore": 22,
+          "financials": {
+            "founded": "2014",
+            "employees": "~300",
+            "primaryUseCase": "Jamstack & static site deployments",
+            "targetUsers": "Developers, startups",
+            "fundingToDate": "$212M",
+            "revenue2024": "~$150M",
+            "growthRate": "45% YoY"
+          },
+          "implementation": {
+            "setupComplexity": "Easy",
+            "cicdIntegration": "Native",
+            "edgeDeployment": "Yes (Edge Handlers)",
+            "customDomains": "Included",
+            "pocAvailability": "Free tier"
+          },
+          "pricing": {
+            "freeTier": "Generous",
+            "teamPlan": "$19/user/month",
+            "enterprisePlan": "Custom"
+          },
+          "security": {
+            "certifications": "SOC 2, GDPR",
+            "ssoRbac": "Yes",
+            "dataResidency": "EU/US regions"
+          },
+          "functionalities": {
+            "serverlessFunctions": "Yes",
+            "previewEnvironments": "Yes",
+            "edgeCaching": "Yes",
+            "backendIntegration": "Moderate",
+            "performanceMonitoring": "Built-in"
+          },
+          "scores": {
+            "easeOfSetup": 5,
+            "performance": 4,
+            "pricing": 4,
+            "enterpriseReadiness": 4,
+            "developerExperience": 5
+          },
+          "presence": "Netlify does not have a specific Israel presence (region, data center)."
+        },
+        {
+          "name": "Cloudflare Pages",
+          "logo": "/cloudflare-logo.jpg",
+          "website": "https://pages.cloudflare.com",
+          "totalScore": 23,
+          "financials": {
+            "founded": "2020",
+            "employees": ">3,000 (part of Cloudflare)",
+            "primaryUseCase": "Static + dynamic edge apps",
+            "targetUsers": "Developers, startups",
+            "fundingToDate": "N/A (public company)",
+            "revenue2024": "Part of Cloudflare's $1.3B",
+            "growthRate": "40% YoY"
+          },
+          "implementation": {
+            "setupComplexity": "Moderate",
+            "cicdIntegration": "Git-based",
+            "edgeDeployment": "Yes (Cloudflare Workers)",
+            "customDomains": "Included",
+            "pocAvailability": "Free tier"
+          },
+          "pricing": {
+            "freeTier": "Unlimited",
+            "teamPlan": "Free (usage-based add-ons)",
+            "enterprisePlan": "Custom"
+          },
+          "security": {
+            "certifications": "SOC 2, ISO 27001, FedRAMP",
+            "ssoRbac": "Yes",
+            "dataResidency": "Global edge"
+          },
+          "functionalities": {
+            "serverlessFunctions": "Yes (Workers)",
+            "previewEnvironments": "Yes",
+            "edgeCaching": "Yes",
+            "backendIntegration": "API-first",
+            "performanceMonitoring": "Cloudflare Analytics"
+          },
+          "scores": {
+            "easeOfSetup": 4,
+            "performance": 5,
+            "pricing": 5,
+            "enterpriseReadiness": 4,
+            "developerExperience": 4
+          },
+          "presence": "Cloudflare has a data center in Tel Aviv, Israel. So its underlying CDN / network operations have a presence there."
+        }
+      ]
+    }
+  }
+}
