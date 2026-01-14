@@ -75,7 +75,7 @@ class AlternativeList extends Component
         // })
 
         $alternatives = $query->simplePaginate(20,
-            ['alternatives.id', 'name', 'description', 'slug', 'image_path', 'total_score']);
+            ['alternatives.id', 'name', 'description', 'slug', 'image_path', 'total_score', 'details']);
 
         return view('livewire.alternative-list', [
             'alternatives' => $alternatives,
