@@ -1,6 +1,16 @@
 <div>
+    <style>
+        @media print {
+            .no-print { display: none !important; }
+            .sticky { position: static !important; }
+            table { font-size: 10pt; }
+            th, td { padding: 4px !important; }
+        }
+        .compact th, .compact td { padding: 6px 8px; font-size: 13px; }
+        .expanded th, .expanded td { padding: 12px 16px; font-size: 15px; }
+    </style>
     <!-- Searching/Filtering box -->
-    <section>
+    <section class="no-print">
         {{--
             <div class="flex justify-end mb-2">
             <a
@@ -38,6 +48,16 @@
                         placeholder="Search..."
                         class="w-full rounded-md border py-2 pl-9 pr-3 focus:border-blue-300 focus:outline-none focus:ring"
                     />
+                </div>
+
+                <div class="flex items-center gap-2 sm:ml-2">
+                    <button wire:click="toggleCompact" class="inline-flex items-center gap-2 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 no-print">
+                        @if ($compact)
+                            Expanded view
+                        @else
+                            Compact view
+                        @endif
+                    </button>
                 </div>
 
                 <!-- Filter select -->
@@ -116,54 +136,56 @@
                     for suggestions.
                 </div>
             @else
-                <div class="min-w-full">
-                    <table class="w-full table-auto border-collapse">
-                        <thead>
-                            <tr class="border-b bg-gray-50">
-                                <th class="px-4 py-3 text-left text-sm font-semibold">Name</th>
-                                <th class="px-4 py-3 text-left text-sm font-semibold">Total score</th>
-                                <th class="px-4 py-3 text-left text-sm font-semibold">Description</th>
-                                <th class="px-4 py-3 text-left text-sm font-semibold">Ease of setup</th>
-                                <th class="px-4 py-3 text-left text-sm font-semibold">Performance</th>
-                                <th class="px-4 py-3 text-left text-sm font-semibold">Pricing</th>
-                                <th class="px-4 py-3 text-left text-sm font-semibold">Enterprise readiness</th>
-                                <th class="px-4 py-3 text-left text-sm font-semibold">Developer experience</th>
-                                <th class="px-4 py-3 text-left text-sm font-semibold">Alternative to</th>
-                                <th class="px-4 py-3 text-left text-sm font-semibold">Actions</th>
+                <div class="min-w-full overflow-x-auto {{ $compact ? 'compact' : 'expanded' }}">
+                    <table class="w-full table-fixed border-collapse text-sm">
+                        <thead class="sticky top-0 z-10 bg-slate-50">
+                            <tr class="border-b text-left text-xs font-semibold text-slate-700 uppercase tracking-wide">
+                                <th class="px-2 py-2">Name</th>
+                                <th class="px-2 py-2 w-28">Score</th>
+                                <th class="px-2 py-2">Description</th>
+                                <th class="px-2 py-2">Ease</th>
+                                <th class="px-2 py-2">Performance</th>
+                                <th class="px-2 py-2">Pricing</th>
+                                <th class="px-2 py-2">Enterprise</th>
+                                <th class="px-2 py-2">Developer Exp.</th>
+                                <th class="px-2 py-2">Alternative to</th>
+                                <th class="px-2 py-2 no-print">Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="divide-y">
                             @foreach ($alternatives as $alt)
-                                <tr class="border-b hover:bg-gray-50">
-                                    <td class="px-4 py-3 text-sm font-medium">
-                                        <a href="{{ route('alternatives.show', $alt) }}" class="text-sm font-semibold text-gray-900 hover:underline">{{ $alt->name }}</a>
+                                <tr class="odd:bg-white even:bg-slate-50 hover:bg-slate-100">
+                                    <td class="px-2 py-1 align-top">
+                                        <a href="{{ route('alternatives.show', $alt) }}" class="font-medium text-slate-900 hover:underline">{{ $alt->name }}</a>
                                     </td>
 
-                                    <td class="px-4 py-3 text-sm">
-                                        @if ($alt->total_score)
-                                            <div class="inline-flex items-center rounded-full bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-800">{{ $alt->total_score }}</div>
-                                        @else
-                                            -
-                                        @endif
+                                    <td class="px-2 py-1 align-top w-28">
+                                        @php $score = (int) ($alt->total_score ?? 0); $pct = max(0, min(100, $score)); @endphp
+                                        <div class="mb-1 flex items-center gap-2">
+                                            <div class="h-2 w-full rounded bg-slate-200">
+                                                <div class="h-2 rounded bg-emerald-600" style="width: {{ $pct }}%"></div>
+                                            </div>
+                                            <div class="text-xs text-slate-700">{{ $score ?: '-' }}</div>
+                                        </div>
                                     </td>
 
-                                    <td class="px-4 py-3 text-sm text-slate-700">{{ Str::limit($alt->description, 140) }}</td>
+                                    <td class="px-2 py-1 text-slate-700">{{ Str::limit($alt->description, $compact ? 110 : 300) }}</td>
 
-                                    <td class="px-4 py-3 text-sm">{{ data_get($alt->details, 'ease_of_setup', '-') }}</td>
+                                    <td class="px-2 py-1">{{ data_get($alt->details, 'ease_of_setup', '-') }}</td>
 
-                                    <td class="px-4 py-3 text-sm">{{ data_get($alt->details, 'performance', '-') }}</td>
+                                    <td class="px-2 py-1">{{ data_get($alt->details, 'performance', '-') }}</td>
 
-                                    <td class="px-4 py-3 text-sm">{{ data_get($alt->details, 'pricing.free_tier', '-') }}</td>
+                                    <td class="px-2 py-1">{{ data_get($alt->details, 'pricing.free_tier', '-') }}</td>
 
-                                    <td class="px-4 py-3 text-sm">{{ data_get($alt->details, 'enterprise_readiness', '-') }}</td>
+                                    <td class="px-2 py-1">{{ data_get($alt->details, 'enterprise_readiness', '-') }}</td>
 
-                                    <td class="px-4 py-3 text-sm">{{ data_get($alt->details, 'developer_experience', '-') }}</td>
+                                    <td class="px-2 py-1">{{ data_get($alt->details, 'developer_experience', '-') }}</td>
 
-                                    <td class="px-4 py-3 text-sm">
+                                    <td class="px-2 py-1">
                                         @if ($alt->companies->isNotEmpty())
-                                            <div class="flex flex-wrap gap-2">
+                                            <div class="flex flex-wrap gap-1">
                                                 @foreach ($alt->companies as $company)
-                                                    <span class="inline-flex items-center rounded border border-gray-200 bg-gray-50 px-2.5 py-1 text-xs text-gray-700">{{ $company->name }}</span>
+                                                    <span class="inline-flex items-center rounded border border-gray-200 bg-gray-50 px-2 py-0.5 text-xs text-gray-700">{{ $company->name }}</span>
                                                 @endforeach
                                             </div>
                                         @else
@@ -171,8 +193,8 @@
                                         @endif
                                     </td>
 
-                                    <td class="px-4 py-3 text-sm">
-                                        <a href="{{ route('alternatives.show', $alt) }}" class="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-1 text-xs font-medium text-gray-800 hover:bg-gray-50">Details</a>
+                                    <td class="px-2 py-1 no-print">
+                                        <a href="{{ route('alternatives.show', $alt) }}" class="inline-flex items-center rounded-md border border-gray-300 bg-white px-2 py-1 text-xs font-medium text-gray-800 hover:bg-gray-50">Details</a>
                                     </td>
                                 </tr>
                             @endforeach

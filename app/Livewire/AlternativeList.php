@@ -21,7 +21,9 @@ class AlternativeList extends Component
 
     public $order = '';
 
-    protected $queryString = ['search', 'filter', 'order'];
+    public $compact = true;
+
+    protected $queryString = ['search', 'filter', 'order', 'compact'];
 
     #[Computed]
     public function alternativesTags()
@@ -81,6 +83,11 @@ class AlternativeList extends Component
             'alternatives' => $alternatives,
             'matchedCompany' => $matchedCompany,
         ]);
+    }
+
+    public function toggleCompact(): void
+    {
+        $this->compact = ! $this->compact;
     }
 
     /**
