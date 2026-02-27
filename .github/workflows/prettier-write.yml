@@ -13,7 +13,7 @@ jobs:
         steps:
             - uses: actions/checkout@v2
               with:
-                  ref: ${{ github.head_ref }}
+                  ref: ${{ github.ref }}
 
             - uses: actions/setup-node@v2
               with:
